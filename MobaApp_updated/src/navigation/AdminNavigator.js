@@ -1,6 +1,6 @@
 import React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { createStackNavigator } from '@react-navigation/stack';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { Text, TouchableOpacity } from 'react-native';
 import { navigateToWelcome } from '../utils/navigation';
 import { COLORS, FONTS } from '../theme';
@@ -10,7 +10,7 @@ import AdminDetailsScreen from '../screens/admin/AdminDetailsScreen';
 import AddMovieScreen from '../screens/AddMovieScreen';
 
 const Tab = createBottomTabNavigator();
-const Stack = createStackNavigator();
+const Stack = createNativeStackNavigator();
 
 const TAB_ICONS = {
   Catálogo: '📋',

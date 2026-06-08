@@ -1,0 +1,8 @@
+/MobaApp_updated/.expo/
+/MobaApp_updated/.expo-shared/
+.expo/
+.expo-shared/
+MobaApp_updated/.expo/*
+MobaApp_updated/.expo/.*
+MobaApp_updated/.expo-shared/*
+MobaApp_updated/.expo-shared/.*

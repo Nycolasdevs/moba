@@ -1,0 +1,9 @@
+.expo/
+.expo-shared/
+/.expo/
+/.expo-shared/
+.expo/*
+.expo/.*
+.expo-shared/*
+.expo-shared/.*
+node_modules/

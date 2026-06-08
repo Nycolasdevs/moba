@@ -6,10 +6,6 @@
     "orientation": "portrait",
     "userInterfaceStyle": "dark",
     "backgroundColor": "#141414",
-    "splash": {
-      "backgroundColor": "#141414",
-      "resizeMode": "contain"
-    },
     "assetBundlePatterns": ["**/*"],
     "ios": {
       "supportsTablet": false,
@@ -19,9 +15,11 @@
       "adaptiveIcon": {
         "backgroundColor": "#141414"
       },
-      "package": "com.moba.streaming",
-      "edgeToEdgeEnabled": true
+      "package": "com.moba.streaming"
     },
-    "plugins": []
+    "experiments": {
+      "reactCompiler": true
+    },
+    "plugins": ["expo-status-bar", "expo-font"]
   }
 }

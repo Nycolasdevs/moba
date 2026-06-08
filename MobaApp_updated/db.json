@@ -122,7 +122,7 @@
       "genero": "Ação",
       "ano": 2002,
       "capa": "https://picsum.photos/seed/cidadededeus/400/600",
-      "favorito": false,
+      "favorito": true,
       "rating": "93%",
       "imdb": "8.6",
       "desc": "Retratos de jovens cresceram em meio à violência nas favelas do Rio de Janeiro.",

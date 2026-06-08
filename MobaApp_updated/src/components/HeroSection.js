@@ -125,9 +125,7 @@ const styles = StyleSheet.create({
     letterSpacing: -0.5,
     lineHeight: 44,
     marginBottom: 8,
-    textShadowColor: 'rgba(0,0,0,0.8)',
-    textShadowOffset: { width: 1, height: 2 },
-    textShadowRadius: 10,
+    textShadow: '1px 2px 10px rgba(0,0,0,0.8)',
   },
   metaRow: {
     flexDirection: 'row',
