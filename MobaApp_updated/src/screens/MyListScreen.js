@@ -5,16 +5,14 @@ import {
 import { StatusBar } from 'expo-status-bar';
 import { useFocusEffect } from '@react-navigation/native';
 import MovieCard from '../components/MovieCard';
-import MovieModal from '../components/MovieModal';
 import { getFilmesFavoritos, toggleFavorito } from '../services/userFilmesApi';
 import { adaptFilme } from '../utils/filmeAdapter';
 import { COLORS, FONTS, SPACING } from '../theme';
 
-export default function MyListScreen() {
+export default function MyListScreen({ navigation }) {
   const [filmes, setFilmes] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [selectedMovie, setSelectedMovie] = useState(null);
-  const [modalVisible, setModalVisible] = useState(false);
+  
 
   const fetchFavoritos = useCallback(async () => {
     try {
@@ -34,9 +32,8 @@ export default function MyListScreen() {
   );
 
   const handlePress = useCallback((movie) => {
-    setSelectedMovie(movie);
-    setModalVisible(true);
-  }, []);
+    navigation.navigate('Details', { id: movie.id });
+  }, [navigation]);
 
   const handleUpdated = useCallback((updated) => {
     const adapted = adaptFilme(updated);
@@ -101,13 +98,7 @@ export default function MyListScreen() {
         />
       )}
 
-      <MovieModal
-        movie={selectedMovie}
-        visible={modalVisible}
-        onClose={() => setModalVisible(false)}
-        onUpdated={handleUpdated}
-        onDeleted={handleDeleted}
-      />
+      {/* Details now open via navigation */}
     </View>
   );
 }

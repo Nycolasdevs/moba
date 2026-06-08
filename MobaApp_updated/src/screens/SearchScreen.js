@@ -6,18 +6,16 @@ import { StatusBar } from 'expo-status-bar';
 import { useFocusEffect } from '@react-navigation/native';
 import SearchBar from '../components/SearchBar';
 import MovieCard from '../components/MovieCard';
-import MovieModal from '../components/MovieModal';
 import { getFilmes } from '../services/userFilmesApi';
 import { adaptFilme, GENRES } from '../utils/filmeAdapter';
 import { COLORS, FONTS, SPACING, RADIUS } from '../theme';
 
-export default function SearchScreen() {
+export default function SearchScreen({ navigation }) {
   const [filmes, setFilmes] = useState([]);
   const [loading, setLoading] = useState(true);
   const [query, setQuery] = useState('');
   const [activeGenre, setActiveGenre] = useState('Todos');
-  const [selectedMovie, setSelectedMovie] = useState(null);
-  const [modalVisible, setModalVisible] = useState(false);
+  
 
   const fetchFilmes = useCallback(async () => {
     try {
@@ -56,9 +54,8 @@ export default function SearchScreen() {
   }, [query, activeGenre, filmes]);
 
   const handlePress = useCallback((movie) => {
-    setSelectedMovie(movie);
-    setModalVisible(true);
-  }, []);
+    navigation.navigate('Details', { id: movie.id });
+  }, [navigation]);
 
   const handleUpdated = useCallback((updated) => {
     setFilmes((prev) =>
@@ -148,13 +145,7 @@ export default function SearchScreen() {
         />
       )}
 
-      <MovieModal
-        movie={selectedMovie}
-        visible={modalVisible}
-        onClose={() => setModalVisible(false)}
-        onUpdated={handleUpdated}
-        onDeleted={handleDeleted}
-      />
+      {/* Details now open via navigation */}
     </View>
   );
 }

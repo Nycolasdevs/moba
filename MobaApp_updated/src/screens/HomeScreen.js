@@ -6,12 +6,11 @@ import { StatusBar } from 'expo-status-bar';
 import { useFocusEffect } from '@react-navigation/native';
 import HeroSection from '../components/HeroSection';
 import MovieRow from '../components/MovieRow';
-import MovieModal from '../components/MovieModal';
 import { getFilmes } from '../services/userFilmesApi';
 import { adaptFilme, buildRows } from '../utils/filmeAdapter';
 import { COLORS, FONTS, SPACING } from '../theme';
 
-export default function HomeScreen() {
+export default function HomeScreen({ navigation }) {
   const [rawFilmes, setRawFilmes] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -42,25 +41,14 @@ export default function HomeScreen() {
   const rows = buildRows(rawFilmes);
 
   const handleMoviePress = useCallback((movie) => {
-    setSelectedMovie(movie);
-    setModalVisible(true);
-  }, []);
+    navigation.navigate('Details', { id: movie.id });
+  }, [navigation]);
 
   const handleCloseModal = useCallback(() => {
     setModalVisible(false);
   }, []);
 
-  const handleUpdated = useCallback((updated) => {
-    setRawFilmes((prev) =>
-      prev.map((m) => (m.id === updated.id ? updated : m))
-    );
-    setSelectedMovie(adaptFilme(updated));
-  }, []);
-
-  const handleDeleted = useCallback((id) => {
-    setRawFilmes((prev) => prev.filter((m) => m.id !== id));
-    setSelectedMovie(null);
-  }, []);
+  // Updates and deletions are handled by refetch on focus
 
   if (loading) {
     return (
@@ -111,13 +99,7 @@ export default function HomeScreen() {
         <View style={{ height: 100 }} />
       </ScrollView>
 
-      <MovieModal
-        movie={selectedMovie}
-        visible={modalVisible}
-        onClose={handleCloseModal}
-        onUpdated={handleUpdated}
-        onDeleted={handleDeleted}
-      />
+      {/* Details now open in a dedicated screen via navigation */}
     </View>
   );
 }
