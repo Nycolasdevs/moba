@@ -1,11 +1,13 @@
 import React from 'react';
-import { View, Text, StyleSheet, TextInput, TouchableOpacity } from 'react-native';
+import { View, StyleSheet, TextInput, TouchableOpacity } from 'react-native';
+import { Search, X } from 'lucide-react-native';
+import { Icon } from './ui/icon';
 import { COLORS, SPACING, RADIUS } from '../theme';
 
 export default function SearchBar({ value, onChangeText, onClear }) {
   return (
     <View style={styles.container}>
-      <Text style={styles.icon}>🔍</Text>
+      <Icon as={Search} size={16} color={COLORS.gray} style={styles.icon} />
       <TextInput
         style={styles.input}
         value={value}
@@ -15,7 +17,7 @@ export default function SearchBar({ value, onChangeText, onClear }) {
       />
       {value.length > 0 && (
         <TouchableOpacity onPress={onClear} hitSlop={{ top: 8, bottom: 8, left: 8, right: 8 }}>
-          <Text style={styles.clear}>✕</Text>
+          <Icon as={X} size={16} color={COLORS.gray} />
         </TouchableOpacity>
       )}
     </View>
@@ -35,7 +37,6 @@ const styles = StyleSheet.create({
     borderColor: COLORS.surface3,
   },
   icon: {
-    fontSize: 16,
     marginRight: 8,
   },
   input: {
@@ -44,10 +45,5 @@ const styles = StyleSheet.create({
     fontSize: 15,
     paddingVertical: 12,
     outlineStyle: 'none',
-  },
-  clear: {
-    color: COLORS.gray,
-    fontSize: 16,
-    padding: 4,
   },
 });

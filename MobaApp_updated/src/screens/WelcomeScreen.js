@@ -3,6 +3,8 @@ import {
   View, Text, StyleSheet, TouchableOpacity, SafeAreaView,
 } from 'react-native';
 import { StatusBar } from 'expo-status-bar';
+import { User, Wrench } from 'lucide-react-native';
+import { Icon } from '../components/ui/icon';
 import { COLORS, FONTS, SPACING, RADIUS } from '../theme';
 
 export default function WelcomeScreen({ navigation }) {
@@ -23,7 +25,7 @@ export default function WelcomeScreen({ navigation }) {
           onPress={() => navigation.replace('UserApp')}
           activeOpacity={0.85}
         >
-          <Text style={styles.btnIcon}>👤</Text>
+          <Icon as={User} size={32} color={COLORS.white} style={styles.btnIcon} />
           <View style={styles.btnTexts}>
             <Text style={styles.btnTitle}>Entrar como Usuário</Text>
             <Text style={styles.btnSub}>
@@ -37,7 +39,7 @@ export default function WelcomeScreen({ navigation }) {
           onPress={() => navigation.replace('AdminApp')}
           activeOpacity={0.85}
         >
-          <Text style={styles.btnIcon}>🛠️</Text>
+          <Icon as={Wrench} size={32} color={COLORS.red} style={styles.btnIcon} />
           <View style={styles.btnTexts}>
             <Text style={styles.btnTitle}>Entrar como Administrador</Text>
             <Text style={styles.btnSub}>
@@ -48,8 +50,14 @@ export default function WelcomeScreen({ navigation }) {
 
         <View style={styles.servers}>
           <Text style={styles.serverLabel}>Servidores locais (JSON Server)</Text>
-          <Text style={styles.serverItem}>👤 Usuário → porta 3000</Text>
-          <Text style={styles.serverItem}>🛠️ Admin → porta 3001</Text>
+          <View style={styles.serverItem}>
+            <Icon as={User} size={14} color={COLORS.white} />
+            <Text style={styles.serverText}>Usuário → porta 3000</Text>
+          </View>
+          <View style={styles.serverItem}>
+            <Icon as={Wrench} size={14} color={COLORS.white} />
+            <Text style={styles.serverText}>Admin → porta 3001</Text>
+          </View>
           <Text style={styles.serverHint}>Execute: npm run server</Text>
         </View>
       </View>
@@ -109,7 +117,6 @@ const styles = StyleSheet.create({
     borderColor: COLORS.red,
   },
   btnIcon: {
-    fontSize: 32,
     marginRight: SPACING.md,
   },
   btnTexts: { flex: 1 },
@@ -137,9 +144,14 @@ const styles = StyleSheet.create({
     marginBottom: 8,
   },
   serverItem: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 8,
+    marginBottom: 4,
+  },
+  serverText: {
     color: COLORS.white,
     fontSize: 13,
-    marginBottom: 4,
   },
   serverHint: {
     color: COLORS.grayDark,

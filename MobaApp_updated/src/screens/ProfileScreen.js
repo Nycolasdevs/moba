@@ -1,26 +1,18 @@
 import React, { useState, useCallback } from 'react';
 import {
-  View, Text, StyleSheet, TouchableOpacity, ScrollView, Alert,
+  View, Text, StyleSheet, TouchableOpacity, ScrollView,
 } from 'react-native';
 import { StatusBar } from 'expo-status-bar';
 import { useFocusEffect } from '@react-navigation/native';
+import { Home, Bookmark, ChevronRight, ArrowLeftRight } from 'lucide-react-native';
+import { Icon } from '../components/ui/icon';
 import { COLORS, FONTS, SPACING, RADIUS } from '../theme';
 import { getFilmes, getFilmesFavoritos } from '../services/userFilmesApi';
 import { navigateToWelcome } from '../utils/navigation';
 
-const PLANS = [
-  { name: 'Basic', price: 'R$ 18,90/mês', features: ['1 tela', 'HD 1080p', 'Anúncios'] },
-  { name: 'Standard', price: 'R$ 34,90/mês', features: ['2 telas', 'Full HD', 'Sem anúncios'], current: true },
-  { name: 'Premium', price: 'R$ 49,90/mês', features: ['4 telas', '4K + HDR', 'Downloads'] },
-];
-
-const SETTINGS = [
-  { icon: '🔔', label: 'Notificações' },
-  { icon: '📱', label: 'Dispositivos conectados' },
-  { icon: '🔐', label: 'Privacidade e segurança' },
-  { icon: '🌐', label: 'Idioma' },
-  { icon: '📺', label: 'Qualidade de streaming' },
-  { icon: '❓', label: 'Ajuda e suporte' },
+const QUICK_ACTIONS = [
+  { icon: Home, label: 'Catálogo', tab: 'Início' },
+  { icon: Bookmark, label: 'Favoritos', tab: 'Minha Lista' },
 ];
 
 export default function ProfileScreen({ navigation }) {
@@ -47,43 +39,50 @@ export default function ProfileScreen({ navigation }) {
     }, [fetchStats])
   );
 
-  const handleAction = (label) => {
-    Alert.alert('MOBA', `${label} em breve!`, [{ text: 'OK' }]);
-  };
-
-  const handleLogout = () => {
-    Alert.alert('Sair', 'Deseja realmente sair da conta?', [
-      { text: 'Cancelar', style: 'cancel' },
-      { text: 'Sair', style: 'destructive' },
-    ]);
-  };
-
   return (
     <View style={styles.container}>
       <StatusBar style="light" />
       <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={styles.content}>
 
-        <View style={styles.profileHeader}>
-          <View style={styles.avatar}>
-            <Text style={styles.avatarText}>M</Text>
+        <View style={styles.header}>
+          <View style={styles.logoBox}>
+            <Text style={styles.logoText}>M</Text>
           </View>
-          <Text style={styles.name}>Meu Perfil</Text>
-          <Text style={styles.email}>usuario@moba.com</Text>
-          <View style={styles.planBadge}>
-            <Text style={styles.planBadgeText}>✦ MOBA Standard</Text>
-          </View>
+          <Text style={styles.title}>MOBA</Text>
+          <Text style={styles.subtitle}>Catálogo de Filmes e Séries</Text>
         </View>
 
         <View style={styles.statsRow}>
           {[
-            { label: 'Catálogo', value: loading ? '...' : String(totalCount) },
+            { label: 'No catálogo', value: loading ? '...' : String(totalCount) },
             { label: 'Favoritos', value: loading ? '...' : String(favCount) },
-            { label: 'Horas', value: '138' },
-          ].map(({ label, value }) => (
-            <View key={label} style={styles.statItem}>
+          ].map(({ label, value }, index) => (
+            <View
+              key={label}
+              style={[styles.statItem, index === 1 && styles.statItemLast]}
+            >
               <Text style={styles.statValue}>{value}</Text>
               <Text style={styles.statLabel}>{label}</Text>
             </View>
+          ))}
+        </View>
+
+        <Text style={styles.sectionTitle}>Acesso rápido</Text>
+        <View style={styles.actionsList}>
+          {QUICK_ACTIONS.map(({ icon, label, tab }, index) => (
+            <TouchableOpacity
+              key={label}
+              style={[
+                styles.actionItem,
+                index === QUICK_ACTIONS.length - 1 && styles.actionItemLast,
+              ]}
+              onPress={() => navigation.navigate(tab)}
+              activeOpacity={0.7}
+            >
+              <Icon as={icon} size={18} color={COLORS.white} style={styles.actionIcon} />
+              <Text style={styles.actionLabel}>{label}</Text>
+              <Icon as={ChevronRight} size={20} color={COLORS.gray} />
+            </TouchableOpacity>
           ))}
         </View>
 
@@ -92,56 +91,11 @@ export default function ProfileScreen({ navigation }) {
           onPress={() => navigateToWelcome(navigation)}
           activeOpacity={0.85}
         >
-          <Text style={styles.switchBtnText}>↩  Trocar perfil (Usuário / Admin)</Text>
+          <Icon as={ArrowLeftRight} size={16} color={COLORS.white} />
+          <Text style={styles.switchBtnText}>Trocar modo (Usuário / Admin)</Text>
         </TouchableOpacity>
 
-        <Text style={styles.sectionTitle}>Planos</Text>
-        <View style={styles.plansRow}>
-          {PLANS.map((plan) => (
-            <TouchableOpacity
-              key={plan.name}
-              style={[styles.planCard, plan.current && styles.planCardActive]}
-              onPress={() => !plan.current && handleAction(`Trocar para ${plan.name}`)}
-              activeOpacity={plan.current ? 1 : 0.8}
-            >
-              {plan.current && (
-                <View style={styles.currentBadge}>
-                  <Text style={styles.currentBadgeText}>Atual</Text>
-                </View>
-              )}
-              <Text style={styles.planName}>{plan.name}</Text>
-              <Text style={styles.planPrice}>{plan.price}</Text>
-              {plan.features.map((f) => (
-                <Text key={f} style={styles.planFeature}>• {f}</Text>
-              ))}
-            </TouchableOpacity>
-          ))}
-        </View>
-
-        <Text style={styles.sectionTitle}>Configurações</Text>
-        <View style={styles.settingsList}>
-          {SETTINGS.map(({ icon, label }, index) => (
-            <TouchableOpacity
-              key={label}
-              style={[
-                styles.settingItem,
-                index === SETTINGS.length - 1 && styles.settingItemLast,
-              ]}
-              onPress={() => handleAction(label)}
-              activeOpacity={0.7}
-            >
-              <Text style={styles.settingIcon}>{icon}</Text>
-              <Text style={styles.settingLabel}>{label}</Text>
-              <Text style={styles.settingArrow}>›</Text>
-            </TouchableOpacity>
-          ))}
-        </View>
-
-        <TouchableOpacity style={styles.logoutBtn} onPress={handleLogout} activeOpacity={0.8}>
-          <Text style={styles.logoutText}>Sair da conta</Text>
-        </TouchableOpacity>
-
-        <Text style={styles.version}>MOBA v1.0.0 · Feito com ❤️</Text>
+        <Text style={styles.version}>MOBA v1.0.0 · AVP2</Text>
         <View style={{ height: 100 }} />
       </ScrollView>
     </View>
@@ -151,53 +105,41 @@ export default function ProfileScreen({ navigation }) {
 const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: COLORS.bg },
   content: { paddingTop: SPACING.md },
-  profileHeader: {
+  header: {
     alignItems: 'center',
     paddingVertical: SPACING.xl,
     paddingHorizontal: SPACING.md,
   },
-  avatar: {
-    width: 80,
-    height: 80,
+  logoBox: {
+    width: 72,
+    height: 72,
     borderRadius: 12,
     backgroundColor: COLORS.red,
     alignItems: 'center',
     justifyContent: 'center',
     marginBottom: SPACING.md,
   },
-  avatarText: {
+  logoText: {
     color: COLORS.white,
-    fontSize: 36,
+    fontSize: 32,
     fontWeight: FONTS.black,
   },
-  name: {
-    color: COLORS.white,
-    fontSize: 22,
-    fontWeight: FONTS.bold,
+  title: {
+    color: COLORS.red,
+    fontSize: 28,
+    fontWeight: FONTS.black,
+    letterSpacing: 2,
     marginBottom: 4,
   },
-  email: {
+  subtitle: {
     color: COLORS.gray,
     fontSize: 14,
-    marginBottom: SPACING.sm,
-  },
-  planBadge: {
-    backgroundColor: 'rgba(229,9,20,0.15)',
-    borderWidth: 1,
-    borderColor: COLORS.red,
-    borderRadius: RADIUS.full,
-    paddingHorizontal: 16,
-    paddingVertical: 4,
-  },
-  planBadgeText: {
-    color: COLORS.red,
-    fontSize: 12,
-    fontWeight: FONTS.bold,
+    textAlign: 'center',
   },
   statsRow: {
     flexDirection: 'row',
     marginHorizontal: SPACING.md,
-    marginBottom: SPACING.md,
+    marginBottom: SPACING.xl,
     backgroundColor: COLORS.surface,
     borderRadius: RADIUS.lg,
     overflow: 'hidden',
@@ -205,47 +147,21 @@ const styles = StyleSheet.create({
   statItem: {
     flex: 1,
     alignItems: 'center',
-    paddingVertical: SPACING.md,
+    paddingVertical: SPACING.lg,
     borderRightWidth: 0.5,
     borderRightColor: COLORS.surface2,
   },
+  statItemLast: { borderRightWidth: 0 },
   statValue: {
     color: COLORS.white,
-    fontSize: 26,
+    fontSize: 28,
     fontWeight: FONTS.black,
   },
   statLabel: {
     color: COLORS.gray,
-    fontSize: 11,
-    marginTop: 2,
-  },
-  addBtn: {
-    marginHorizontal: SPACING.md,
-    marginBottom: SPACING.xl,
-    backgroundColor: COLORS.red,
-    paddingVertical: 14,
-    borderRadius: RADIUS.md,
-    alignItems: 'center',
-  },
-  addBtnText: {
-    color: COLORS.white,
-    fontSize: 15,
-    fontWeight: FONTS.bold,
-  },
-  switchBtn: {
-    marginHorizontal: SPACING.md,
-    marginBottom: SPACING.xl,
-    backgroundColor: COLORS.surface,
-    paddingVertical: 14,
-    borderRadius: RADIUS.md,
-    alignItems: 'center',
-    borderWidth: 1,
-    borderColor: COLORS.surface3,
-  },
-  switchBtnText: {
-    color: COLORS.white,
-    fontSize: 14,
-    fontWeight: FONTS.bold,
+    fontSize: 12,
+    marginTop: 4,
+    textAlign: 'center',
   },
   sectionTitle: {
     color: '#e5e5e5',
@@ -254,64 +170,14 @@ const styles = StyleSheet.create({
     paddingHorizontal: SPACING.md,
     marginBottom: SPACING.sm,
   },
-  plansRow: {
-    flexDirection: 'row',
-    paddingHorizontal: SPACING.md,
-    gap: 8,
-    marginBottom: SPACING.xl,
-  },
-  planCard: {
-    flex: 1,
-    backgroundColor: COLORS.surface,
-    borderRadius: RADIUS.md,
-    padding: 12,
-    borderWidth: 1,
-    borderColor: 'transparent',
-    position: 'relative',
-  },
-  planCardActive: {
-    borderColor: COLORS.red,
-    backgroundColor: 'rgba(229,9,20,0.08)',
-  },
-  currentBadge: {
-    position: 'absolute',
-    top: -9,
-    right: 8,
-    backgroundColor: COLORS.red,
-    borderRadius: RADIUS.full,
-    paddingHorizontal: 8,
-    paddingVertical: 2,
-  },
-  currentBadgeText: {
-    color: COLORS.white,
-    fontSize: 9,
-    fontWeight: FONTS.bold,
-  },
-  planName: {
-    color: COLORS.white,
-    fontSize: 13,
-    fontWeight: FONTS.bold,
-    marginBottom: 4,
-  },
-  planPrice: {
-    color: COLORS.red,
-    fontSize: 11,
-    fontWeight: FONTS.bold,
-    marginBottom: 6,
-  },
-  planFeature: {
-    color: COLORS.gray,
-    fontSize: 10,
-    lineHeight: 16,
-  },
-  settingsList: {
+  actionsList: {
     marginHorizontal: SPACING.md,
     backgroundColor: COLORS.surface,
     borderRadius: RADIUS.lg,
     overflow: 'hidden',
     marginBottom: SPACING.xl,
   },
-  settingItem: {
+  actionItem: {
     flexDirection: 'row',
     alignItems: 'center',
     padding: SPACING.md,
@@ -319,23 +185,25 @@ const styles = StyleSheet.create({
     borderBottomColor: COLORS.surface2,
     gap: 12,
   },
-  settingItemLast: { borderBottomWidth: 0 },
-  settingIcon: { fontSize: 18, width: 28 },
-  settingLabel: { color: COLORS.white, fontSize: 14, flex: 1 },
-  settingArrow: { color: COLORS.gray, fontSize: 20 },
-  logoutBtn: {
-    marginHorizontal: SPACING.md,
-    backgroundColor: COLORS.surface,
-    borderRadius: RADIUS.md,
-    paddingVertical: SPACING.md,
+  actionItemLast: { borderBottomWidth: 0 },
+  actionIcon: { width: 28 },
+  actionLabel: { color: COLORS.white, fontSize: 14, flex: 1 },
+  switchBtn: {
+    flexDirection: 'row',
     alignItems: 'center',
+    justifyContent: 'center',
+    gap: 8,
+    marginHorizontal: SPACING.md,
+    marginBottom: SPACING.lg,
+    backgroundColor: COLORS.surface,
+    paddingVertical: 14,
+    borderRadius: RADIUS.md,
     borderWidth: 1,
-    borderColor: 'rgba(255,255,255,0.1)',
-    marginBottom: SPACING.md,
+    borderColor: COLORS.surface3,
   },
-  logoutText: {
-    color: COLORS.red,
-    fontSize: 15,
+  switchBtnText: {
+    color: COLORS.white,
+    fontSize: 14,
     fontWeight: FONTS.bold,
   },
   version: {

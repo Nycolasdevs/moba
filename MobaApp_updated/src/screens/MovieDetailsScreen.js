@@ -4,6 +4,9 @@ import {
   TouchableOpacity, ScrollView, Alert,
 } from 'react-native';
 import { StatusBar } from 'expo-status-bar';
+import { Star } from 'lucide-react-native';
+import { Icon } from '../components/ui/icon';
+import DeleteMovieModal from '../components/DeleteMovieModal';
 import { getFilmeById as getUserFilmeById, toggleFavorito } from '../services/userFilmesApi';
 import { deleteFilme as deleteAdminFilme } from '../services/adminFilmesApi';
 import { COLORS, FONTS, SPACING, RADIUS } from '../theme';
@@ -13,6 +16,7 @@ export default function MovieDetailsScreen({ route, navigation }) {
   const [filme, setFilme] = useState(null);
   const [loading, setLoading] = useState(true);
   const [deleting, setDeleting] = useState(false);
+  const [deleteModalVisible, setDeleteModalVisible] = useState(false);
   const [favLoading, setFavLoading] = useState(false);
 
   const fetchFilme = useCallback(async () => {
@@ -54,6 +58,25 @@ export default function MovieDetailsScreen({ route, navigation }) {
         },
       ]
     );
+  };
+
+  const handleCancelDelete = () => {
+    if (!deleting) setDeleteModalVisible(false);
+  };
+
+  const handleConfirmDelete = async () => {
+    try {
+      setDeleting(true);
+      await deleteAdminFilme(id);
+      setDeleteModalVisible(false);
+      Alert.alert('Filme excluido', `"${filme.titulo}" foi removido do catalogo.`, [
+        { text: 'OK', onPress: () => navigation.goBack() },
+      ]);
+    } catch {
+      Alert.alert('Erro', 'Nao foi possivel excluir.');
+    } finally {
+      setDeleting(false);
+    }
   };
 
   const handleToggleFavorito = async () => {
@@ -105,14 +128,20 @@ export default function MovieDetailsScreen({ route, navigation }) {
             disabled={favLoading}
             activeOpacity={0.85}
           >
+            <Icon
+              as={Star}
+              size={16}
+              color={filme.favorito ? '#f5c518' : COLORS.white}
+              fill={filme.favorito ? '#f5c518' : 'transparent'}
+            />
             <Text style={[styles.btnFavText, filme.favorito && styles.btnFavTextActive]}>
-              {filme.favorito ? '★  Favorito' : '☆  Favoritar'}
+              {filme.favorito ? 'Favorito' : 'Favoritar'}
             </Text>
           </TouchableOpacity>
 
           <TouchableOpacity
             style={styles.btnDelete}
-            onPress={handleDelete}
+            onPress={() => setDeleteModalVisible(true)}
             disabled={deleting}
             activeOpacity={0.85}
           >
@@ -125,6 +154,14 @@ export default function MovieDetailsScreen({ route, navigation }) {
 
         <View style={{ height: 40 }} />
       </View>
+
+      <DeleteMovieModal
+        visible={deleteModalVisible}
+        title={filme.titulo}
+        loading={deleting}
+        onCancel={handleCancelDelete}
+        onConfirm={handleConfirmDelete}
+      />
     </ScrollView>
   );
 }
@@ -142,7 +179,16 @@ const styles = StyleSheet.create({
   year: { color: COLORS.gray, fontSize: 16 },
   desc: { color: '#ccc', fontSize: 14, lineHeight: 22, marginBottom: SPACING.lg },
   actions: { flexDirection: 'row', gap: 10, marginBottom: SPACING.md },
-  btnFav: { backgroundColor: COLORS.surface2, flex: 1, paddingVertical: 12, borderRadius: RADIUS.sm, alignItems: 'center' },
+  btnFav: {
+    backgroundColor: COLORS.surface2,
+    flex: 1,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    gap: 8,
+    paddingVertical: 12,
+    borderRadius: RADIUS.sm,
+  },
   btnFavActive: { backgroundColor: 'rgba(245,197,24,0.15)', borderColor: '#f5c518' },
   btnFavText: { color: COLORS.white, fontSize: 15, fontWeight: FONTS.bold },
   btnFavTextActive: { color: '#f5c518' },

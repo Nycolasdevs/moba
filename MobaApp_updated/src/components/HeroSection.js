@@ -1,6 +1,8 @@
 import React from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, Dimensions, Image } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
+import { Play, Info } from 'lucide-react-native';
+import { Icon } from './ui/icon';
 import { COLORS, FONTS, SPACING, RADIUS } from '../theme';
 
 const { height } = Dimensions.get('window');
@@ -56,11 +58,11 @@ export default function HeroSection({ movie, onPress, onInfo }) {
 
           <View style={styles.buttons}>
             <TouchableOpacity style={styles.btnPlay} onPress={() => onPress(movie)} activeOpacity={0.85}>
-              <Text style={styles.btnPlayIcon}>▶</Text>
+              <Icon as={Play} size={16} color="#000" fill="#000" />
               <Text style={styles.btnPlayText}>Assistir</Text>
             </TouchableOpacity>
             <TouchableOpacity style={styles.btnInfo} onPress={() => onInfo(movie)} activeOpacity={0.85}>
-              <Text style={styles.btnInfoIcon}>ⓘ</Text>
+              <Icon as={Info} size={16} color={COLORS.white} />
               <Text style={styles.btnInfoText}>Detalhes</Text>
             </TouchableOpacity>
           </View>
@@ -178,10 +180,6 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
   },
-  btnPlayIcon: {
-    fontSize: 16,
-    color: '#000',
-  },
   btnPlayText: {
     fontSize: 15,
     fontWeight: FONTS.bold,
@@ -197,10 +195,6 @@ const styles = StyleSheet.create({
     borderRadius: RADIUS.sm,
     flex: 1,
     justifyContent: 'center',
-  },
-  btnInfoIcon: {
-    fontSize: 16,
-    color: COLORS.white,
   },
   btnInfoText: {
     fontSize: 15,

@@ -1,7 +1,8 @@
 import React, { useState, useCallback } from 'react';
 import {
-  View, ScrollView, StyleSheet, ActivityIndicator, Text, TouchableOpacity,
+  View, StyleSheet, ActivityIndicator, Text, TouchableOpacity,
 } from 'react-native';
+import { ScrollView } from 'react-native-gesture-handler';
 import { StatusBar } from 'expo-status-bar';
 import { useFocusEffect } from '@react-navigation/native';
 import HeroSection from '../components/HeroSection';
@@ -80,6 +81,8 @@ export default function HomeScreen({ navigation }) {
         style={styles.scroll}
         showsVerticalScrollIndicator={false}
         contentContainerStyle={styles.content}
+        nestedScrollEnabled
+        keyboardShouldPersistTaps="handled"
       >
         <HeroSection
           movie={featuredMovie}

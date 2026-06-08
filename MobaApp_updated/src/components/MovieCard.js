@@ -1,16 +1,22 @@
 import React from 'react';
 import { TouchableOpacity, View, Text, StyleSheet, Image } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
+import { Film, Star } from 'lucide-react-native';
+import { Icon } from './ui/icon';
 import { COLORS, CARD, RADIUS, FONTS } from '../theme';
 
-export default function MovieCard({ movie, onPress, size = 'normal' }) {
+export default function MovieCard({ movie, onPress, size = 'normal', width: widthProp, style }) {
   const isWide = size === 'wide';
-  const width = isWide ? 200 : CARD.width;
-  const height = isWide ? 115 : CARD.height;
+  const width = widthProp ?? (isWide ? 200 : CARD.width);
+  const height = isWide
+    ? 115
+    : widthProp
+      ? Math.round(width * (CARD.height / CARD.width))
+      : CARD.height;
 
   return (
     <TouchableOpacity
-      style={[styles.card, { width, height }]}
+      style={[styles.card, { width, height }, style]}
       onPress={() => onPress(movie)}
       activeOpacity={0.8}
     >
@@ -29,7 +35,7 @@ export default function MovieCard({ movie, onPress, size = 'normal' }) {
           </View>
           {movie.favorito && (
             <View style={styles.favBadge}>
-              <Text style={styles.favText}>★</Text>
+              <Icon as={Star} size={10} color="#f5c518" fill="#f5c518" />
             </View>
           )}
         </View>
@@ -40,7 +46,7 @@ export default function MovieCard({ movie, onPress, size = 'normal' }) {
           start={{ x: 0, y: 0 }}
           end={{ x: 1, y: 1 }}
         >
-          <Text style={[styles.emoji, { fontSize: isWide ? 36 : 44 }]}>{movie.emoji}</Text>
+          <Icon as={Film} size={isWide ? 36 : 44} color="rgba(255,255,255,0.85)" />
           <View style={styles.ratingBadge}>
             <Text style={styles.ratingText}>{movie.rating}</Text>
           </View>
@@ -72,9 +78,6 @@ const styles = StyleSheet.create({
     width: '100%',
     height: '100%',
   },
-  emoji: {
-    textAlign: 'center',
-  },
   ratingBadge: {
     position: 'absolute',
     top: 6,
@@ -97,10 +100,6 @@ const styles = StyleSheet.create({
     borderRadius: RADIUS.sm,
     paddingHorizontal: 5,
     paddingVertical: 2,
-  },
-  favText: {
-    color: '#f5c518',
-    fontSize: 10,
   },
   bottomOverlay: {
     position: 'absolute',

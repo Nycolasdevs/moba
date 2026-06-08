@@ -2,6 +2,8 @@ import React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { Text, TouchableOpacity } from 'react-native';
+import { ClipboardList, Plus } from 'lucide-react-native';
+import { Icon } from '../components/ui/icon';
 import { navigateToWelcome } from '../utils/navigation';
 import { COLORS, FONTS } from '../theme';
 
@@ -13,8 +15,8 @@ const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
 
 const TAB_ICONS = {
-  Catálogo: '📋',
-  Adicionar: '➕',
+  Catálogo: ClipboardList,
+  Adicionar: Plus,
 };
 
 function AdminTabs({ navigation }) {
@@ -42,9 +44,12 @@ function AdminTabs({ navigation }) {
           paddingTop: 8,
         },
         tabBarIcon: ({ focused }) => (
-          <Text style={{ fontSize: 20, opacity: focused ? 1 : 0.5 }}>
-            {TAB_ICONS[route.name]}
-          </Text>
+          <Icon
+            as={TAB_ICONS[route.name]}
+            size={22}
+            color={focused ? COLORS.white : COLORS.gray}
+            strokeWidth={focused ? 2.5 : 2}
+          />
         ),
         tabBarLabel: ({ focused, children }) => (
           <Text

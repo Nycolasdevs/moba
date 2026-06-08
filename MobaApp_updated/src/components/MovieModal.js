@@ -4,6 +4,8 @@ import {
   Modal, Dimensions, Alert, Image, ActivityIndicator,
 } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
+import { Play, Star, X, Film } from 'lucide-react-native';
+import { Icon } from './ui/icon';
 import { COLORS, FONTS, SPACING, RADIUS } from '../theme';
 import { toggleFavorito } from '../services/userFilmesApi';
 
@@ -18,7 +20,7 @@ export default function MovieModal({ movie, visible, onClose, onUpdated, onDelet
   const starsCount = Math.round(imdbNum / 2);
 
   const handlePlay = () => {
-    Alert.alert('MOBA', `▶ Reproduzindo "${movie.title}"`, [{ text: 'OK' }]);
+    Alert.alert('MOBA', `Reproduzindo "${movie.title}"`, [{ text: 'OK' }]);
   };
 
   const handleToggleFavorito = async () => {
@@ -55,7 +57,9 @@ export default function MovieModal({ movie, visible, onClose, onUpdated, onDelet
                 start={{ x: 0, y: 0 }}
                 end={{ x: 1, y: 1 }}
               >
-                <Text style={styles.headerEmoji}>{movie.emoji}</Text>
+                <View style={styles.headerIconWrap}>
+                  <Icon as={Film} size={72} color="rgba(255,255,255,0.85)" />
+                </View>
               </LinearGradient>
             )}
             <LinearGradient
@@ -63,14 +67,15 @@ export default function MovieModal({ movie, visible, onClose, onUpdated, onDelet
               style={styles.headerOverlay}
             />
             <TouchableOpacity style={styles.closeBtn} onPress={onClose}>
-              <Text style={styles.closeBtnText}>✕</Text>
+              <Icon as={X} size={18} color={COLORS.white} />
             </TouchableOpacity>
           </View>
 
           <ScrollView style={styles.body} showsVerticalScrollIndicator={false} bounces={false}>
             <View style={styles.actions}>
               <TouchableOpacity style={styles.btnPlay} onPress={handlePlay} activeOpacity={0.85}>
-                <Text style={styles.btnPlayText}>▶  Assistir</Text>
+                <Icon as={Play} size={16} color={COLORS.white} fill={COLORS.white} />
+                <Text style={styles.btnPlayText}>Assistir</Text>
               </TouchableOpacity>
               <TouchableOpacity
                 style={[styles.btnList, movie.favorito && styles.btnListActive]}
@@ -78,8 +83,14 @@ export default function MovieModal({ movie, visible, onClose, onUpdated, onDelet
                 disabled={loading}
                 activeOpacity={0.85}
               >
+                <Icon
+                  as={Star}
+                  size={16}
+                  color={movie.favorito ? '#f5c518' : COLORS.white}
+                  fill={movie.favorito ? '#f5c518' : 'transparent'}
+                />
                 <Text style={[styles.btnListText, movie.favorito && styles.btnListTextActive]}>
-                  {movie.favorito ? '★  Favorito' : '☆  Favoritar'}
+                  {movie.favorito ? 'Favorito' : 'Favoritar'}
                 </Text>
               </TouchableOpacity>
             </View>
@@ -107,9 +118,13 @@ export default function MovieModal({ movie, visible, onClose, onUpdated, onDelet
                 <Text style={styles.imdbScore}>{movie.imdb}</Text>
                 <View style={styles.starsRow}>
                   {[1, 2, 3, 4, 5].map((i) => (
-                    <Text key={i} style={styles.star}>
-                      {i <= starsCount ? '★' : '☆'}
-                    </Text>
+                    <Icon
+                      key={i}
+                      as={Star}
+                      size={14}
+                      color="#f5c518"
+                      fill={i <= starsCount ? '#f5c518' : 'transparent'}
+                    />
                   ))}
                 </View>
               </View>
@@ -182,8 +197,10 @@ const styles = StyleSheet.create({
     width: '100%',
     height: '100%',
   },
-  headerEmoji: {
-    fontSize: 88,
+  headerIconWrap: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
     marginTop: 40,
   },
   headerOverlay: {
@@ -204,11 +221,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
-  closeBtnText: {
-    color: COLORS.white,
-    fontSize: 16,
-    fontWeight: FONTS.bold,
-  },
   body: { padding: SPACING.md },
   actions: {
     flexDirection: 'row',
@@ -218,9 +230,12 @@ const styles = StyleSheet.create({
   btnPlay: {
     backgroundColor: COLORS.red,
     flex: 1,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    gap: 8,
     paddingVertical: 12,
     borderRadius: RADIUS.sm,
-    alignItems: 'center',
   },
   btnPlayText: {
     color: COLORS.white,
@@ -230,11 +245,14 @@ const styles = StyleSheet.create({
   btnList: {
     backgroundColor: COLORS.surface2,
     flex: 1,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    gap: 8,
     paddingVertical: 12,
     borderRadius: RADIUS.sm,
     borderWidth: 1,
     borderColor: 'rgba(255,255,255,0.2)',
-    alignItems: 'center',
   },
   btnListActive: {
     backgroundColor: 'rgba(245,197,24,0.15)',
@@ -297,8 +315,7 @@ const styles = StyleSheet.create({
     fontSize: 15,
     fontWeight: FONTS.bold,
   },
-  starsRow: { flexDirection: 'row' },
-  star: { color: '#f5c518', fontSize: 14 },
+  starsRow: { flexDirection: 'row', gap: 2 },
   desc: {
     color: '#ccc',
     fontSize: 14,

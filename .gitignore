@@ -1,8 +1,46 @@
-/MobaApp_updated/.expo/
-/MobaApp_updated/.expo-shared/
+# Dependencies
+node_modules/
+MobaApp_updated/node_modules/
+
+# Expo / React Native
 .expo/
 .expo-shared/
-MobaApp_updated/.expo/*
-MobaApp_updated/.expo/.*
-MobaApp_updated/.expo-shared/*
-MobaApp_updated/.expo-shared/.*
+MobaApp_updated/.expo/
+MobaApp_updated/.expo-shared/
+MobaApp_updated/.expo-export-test/
+
+# Build outputs
+dist/
+build/
+web-build/
+MobaApp_updated/dist/
+MobaApp_updated/build/
+MobaApp_updated/web-build/
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+*.log
+
+# Environment files
+.env
+.env.*
+!.env.example
+
+# OS / editor files
+.DS_Store
+Thumbs.db
+Desktop.ini
+.vscode/
+.idea/
+
+# Test / coverage artifacts
+coverage/
+.nyc_output/
+
+# Temporary files
+tmp/
+temp/
+*.tmp

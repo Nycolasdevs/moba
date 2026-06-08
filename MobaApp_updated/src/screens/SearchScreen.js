@@ -4,11 +4,16 @@ import {
 } from 'react-native';
 import { StatusBar } from 'expo-status-bar';
 import { useFocusEffect } from '@react-navigation/native';
+import { Film } from 'lucide-react-native';
+import { Icon } from '../components/ui/icon';
 import SearchBar from '../components/SearchBar';
 import MovieCard from '../components/MovieCard';
 import { getFilmes } from '../services/userFilmesApi';
 import { adaptFilme, GENRES } from '../utils/filmeAdapter';
+import { getGridCardWidth } from '../utils/layout';
 import { COLORS, FONTS, SPACING, RADIUS } from '../theme';
+
+const GRID_CARD_WIDTH = getGridCardWidth();
 
 export default function SearchScreen({ navigation }) {
   const [filmes, setFilmes] = useState([]);
@@ -72,7 +77,12 @@ export default function SearchScreen({ navigation }) {
   const renderItem = useCallback(
     ({ item }) => (
       <View style={styles.cardWrapper}>
-        <MovieCard movie={item} onPress={handlePress} />
+        <MovieCard
+          movie={item}
+          onPress={handlePress}
+          width={GRID_CARD_WIDTH}
+          style={styles.gridCard}
+        />
       </View>
     ),
     [handlePress]
@@ -129,7 +139,7 @@ export default function SearchScreen({ navigation }) {
 
       {results.length === 0 ? (
         <View style={styles.empty}>
-          <Text style={styles.emptyEmoji}>🎬</Text>
+          <Icon as={Film} size={48} color={COLORS.gray} style={styles.emptyIcon} />
           <Text style={styles.emptyText}>Nenhum filme encontrado</Text>
           <Text style={styles.emptyHint}>Tente outro termo ou gênero</Text>
         </View>
@@ -204,14 +214,19 @@ const styles = StyleSheet.create({
     gap: 8,
     marginBottom: 8,
   },
-  cardWrapper: {},
+  cardWrapper: {
+    width: GRID_CARD_WIDTH,
+  },
+  gridCard: {
+    marginRight: 0,
+  },
   empty: {
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
     gap: 8,
   },
-  emptyEmoji: { fontSize: 48, marginBottom: 8 },
+  emptyIcon: { marginBottom: 8 },
   emptyText: {
     color: COLORS.white,
     fontSize: 18,

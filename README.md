@@ -37,16 +37,35 @@ src/
 
 ## Como rodar
 
+Entre na pasta do app:
+
+```bash
+cd MobaApp_updated
+```
+
+Instale as dependencias:
+
 ```bash
 npm install
-npx expo start
+```
+
+Em um terminal, inicie os servidores do `db.json`:
+
+```bash
+npm run server
+```
+
+Em outro terminal, inicie o app Expo:
+
+```bash
+npm start
 ```
 
 Escaneie o QR code com o app **Expo Go** no celular.
 
 ## Funcionalidades
 
-- 🎬 16 filmes com dados completos (IMDB, elenco, diretor, classificação etária)
+- 🎬 Filmes com dados completos (IMDB, elenco, diretor, classificação etária)
 - 🔥 Rows temáticos: Em Alta, Ação, Ficção, Terror, Aventura, Drama
 - 🔍 Busca por título, gênero, descrição, diretor e elenco
 - 📋 Minha Lista — adicionar/remover com estado global sincronizado entre telas

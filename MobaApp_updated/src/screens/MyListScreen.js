@@ -1,13 +1,18 @@
 import React, { useState, useCallback } from 'react';
 import {
-  View, Text, FlatList, StyleSheet, ActivityIndicator, TouchableOpacity,
+  View, Text, FlatList, StyleSheet, ActivityIndicator,
 } from 'react-native';
 import { StatusBar } from 'expo-status-bar';
 import { useFocusEffect } from '@react-navigation/native';
+import { Bookmark, Star } from 'lucide-react-native';
+import { Icon } from '../components/ui/icon';
 import MovieCard from '../components/MovieCard';
 import { getFilmesFavoritos, toggleFavorito } from '../services/userFilmesApi';
 import { adaptFilme } from '../utils/filmeAdapter';
+import { getGridCardWidth } from '../utils/layout';
 import { COLORS, FONTS, SPACING } from '../theme';
+
+const GRID_CARD_WIDTH = getGridCardWidth();
 
 export default function MyListScreen({ navigation }) {
   const [filmes, setFilmes] = useState([]);
@@ -76,11 +81,13 @@ export default function MyListScreen({ navigation }) {
 
       {filmes.length === 0 ? (
         <View style={styles.empty}>
-          <Text style={styles.emptyEmoji}>📋</Text>
+          <Icon as={Bookmark} size={48} color={COLORS.gray} style={styles.emptyIcon} />
           <Text style={styles.emptyTitle}>Sua lista está vazia</Text>
-          <Text style={styles.emptyHint}>
-            Toque em ☆ Favoritar nos detalhes de um filme
-          </Text>
+          <View style={styles.emptyHintRow}>
+            <Text style={styles.emptyHint}>Toque em </Text>
+            <Icon as={Star} size={14} color={COLORS.gray} />
+            <Text style={styles.emptyHint}> Favoritar nos detalhes de um filme</Text>
+          </View>
         </View>
       ) : (
         <FlatList
@@ -92,7 +99,12 @@ export default function MyListScreen({ navigation }) {
           showsVerticalScrollIndicator={false}
           renderItem={({ item }) => (
             <View style={styles.cardWrap}>
-              <MovieCard movie={item} onPress={handlePress} />
+              <MovieCard
+                movie={item}
+                onPress={handlePress}
+                width={GRID_CARD_WIDTH}
+                style={styles.gridCard}
+              />
             </View>
           )}
         />
@@ -135,19 +147,30 @@ const styles = StyleSheet.create({
     gap: 8,
     marginBottom: 8,
   },
-  cardWrap: {},
+  cardWrap: {
+    width: GRID_CARD_WIDTH,
+  },
+  gridCard: {
+    marginRight: 0,
+  },
   empty: {
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
     paddingHorizontal: SPACING.lg,
   },
-  emptyEmoji: { fontSize: 48, marginBottom: SPACING.md },
+  emptyIcon: { marginBottom: SPACING.md },
   emptyTitle: {
     color: COLORS.white,
     fontSize: 18,
     fontWeight: FONTS.bold,
     marginBottom: 8,
+  },
+  emptyHintRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    flexWrap: 'wrap',
+    justifyContent: 'center',
   },
   emptyHint: {
     color: COLORS.gray,
