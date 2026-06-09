@@ -1,0 +1,28 @@
+{
+  "expo": {
+    "name": "MOBA",
+    "slug": "moba-app",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "userInterfaceStyle": "dark",
+    "backgroundColor": "#141414",
+    "assetBundlePatterns": ["**/*"],
+    "ios": {
+      "supportsTablet": false,
+      "bundleIdentifier": "com.moba.streaming"
+    },
+    "android": {
+      "adaptiveIcon": {
+        "backgroundColor": "#141414"
+      },
+      "package": "com.moba.streaming"
+    },
+    "web": {
+      "bundler": "metro"
+    },
+    "experiments": {
+      "reactCompiler": true
+    },
+    "plugins": ["expo-status-bar", "expo-font"]
+  }
+}
