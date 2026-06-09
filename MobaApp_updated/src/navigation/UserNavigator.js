@@ -1,10 +1,11 @@
 import React from 'react';
-import { createStackNavigator } from '@react-navigation/stack';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { TouchableOpacity, Text } from 'react-native';
 import TabNavigator from './TabNavigator';
+import MovieDetailsScreen from '../screens/MovieDetailsScreen';
 import { COLORS, FONTS } from '../theme';
 
-const Stack = createStackNavigator();
+const Stack = createNativeStackNavigator();
 
 export default function UserNavigator() {
   return (
@@ -30,6 +31,11 @@ export default function UserNavigator() {
             </TouchableOpacity>
           ),
         })}
+      />
+      <Stack.Screen
+        name="Details"
+        component={MovieDetailsScreen}
+        options={{ title: 'Detalhes' }}
       />
     </Stack.Navigator>
   );

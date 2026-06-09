@@ -58,6 +58,11 @@ export function buildRows(filmes) {
       movies: adapted.filter((m) => m.genre.includes('Ficção Científica')),
     },
     {
+      id: 'comedia',
+      label: '😂 Comédia',
+      movies: adapted.filter((m) => m.genre.includes('Comédia')),
+    },
+    {
       id: 'all',
       label: '📺 Catálogo Completo',
       movies: adapted,
@@ -65,8 +70,7 @@ export function buildRows(filmes) {
   ].filter((row) => row.movies.length > 0);
 }
 
-export const GENRES = [
-  'Todos',
+export const MOVIE_GENRES = [
   'Ação',
   'Drama',
   'Ficção Científica',
@@ -74,3 +78,5 @@ export const GENRES = [
   'Comédia',
   'Romance',
 ];
+
+export const GENRES = ['Todos', ...MOVIE_GENRES];

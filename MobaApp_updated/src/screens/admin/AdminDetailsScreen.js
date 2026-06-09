@@ -4,6 +4,7 @@ import {
   TouchableOpacity, ScrollView, Alert,
 } from 'react-native';
 import { StatusBar } from 'expo-status-bar';
+import DeleteMovieModal from '../../components/DeleteMovieModal';
 import { getFilmeById, deleteFilme } from '../../services/adminFilmesApi';
 import { COLORS, FONTS, SPACING, RADIUS } from '../../theme';
 
@@ -12,6 +13,7 @@ export default function AdminDetailsScreen({ route, navigation }) {
   const [filme, setFilme] = useState(null);
   const [loading, setLoading] = useState(true);
   const [deleting, setDeleting] = useState(false);
+  const [deleteModalVisible, setDeleteModalVisible] = useState(false);
 
   const fetchFilme = useCallback(async () => {
     try {
@@ -54,6 +56,25 @@ export default function AdminDetailsScreen({ route, navigation }) {
     );
   };
 
+  const handleCancelDelete = () => {
+    if (!deleting) setDeleteModalVisible(false);
+  };
+
+  const handleConfirmDelete = async () => {
+    try {
+      setDeleting(true);
+      await deleteFilme(id);
+      setDeleteModalVisible(false);
+      Alert.alert('Filme excluido', `"${filme.titulo}" foi removido do catalogo.`, [
+        { text: 'OK', onPress: () => navigation.goBack() },
+      ]);
+    } catch {
+      Alert.alert('Erro', 'Nao foi possivel excluir.');
+    } finally {
+      setDeleting(false);
+    }
+  };
+
   if (loading || !filme) {
     return (
       <View style={styles.center}>
@@ -88,7 +109,7 @@ export default function AdminDetailsScreen({ route, navigation }) {
 
         <TouchableOpacity
           style={styles.btnDelete}
-          onPress={handleDelete}
+          onPress={() => setDeleteModalVisible(true)}
           disabled={deleting}
           activeOpacity={0.85}
         >
@@ -99,6 +120,14 @@ export default function AdminDetailsScreen({ route, navigation }) {
           )}
         </TouchableOpacity>
       </View>
+
+      <DeleteMovieModal
+        visible={deleteModalVisible}
+        title={filme.titulo}
+        loading={deleting}
+        onCancel={handleCancelDelete}
+        onConfirm={handleConfirmDelete}
+      />
     </ScrollView>
   );
 }

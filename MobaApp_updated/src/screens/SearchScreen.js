@@ -4,20 +4,23 @@ import {
 } from 'react-native';
 import { StatusBar } from 'expo-status-bar';
 import { useFocusEffect } from '@react-navigation/native';
+import { Film } from 'lucide-react-native';
+import { Icon } from '../components/ui/icon';
 import SearchBar from '../components/SearchBar';
 import MovieCard from '../components/MovieCard';
-import MovieModal from '../components/MovieModal';
 import { getFilmes } from '../services/userFilmesApi';
 import { adaptFilme, GENRES } from '../utils/filmeAdapter';
+import { getGridCardWidth } from '../utils/layout';
 import { COLORS, FONTS, SPACING, RADIUS } from '../theme';
 
-export default function SearchScreen() {
+const GRID_CARD_WIDTH = getGridCardWidth();
+
+export default function SearchScreen({ navigation }) {
   const [filmes, setFilmes] = useState([]);
   const [loading, setLoading] = useState(true);
   const [query, setQuery] = useState('');
   const [activeGenre, setActiveGenre] = useState('Todos');
-  const [selectedMovie, setSelectedMovie] = useState(null);
-  const [modalVisible, setModalVisible] = useState(false);
+  
 
   const fetchFilmes = useCallback(async () => {
     try {
@@ -56,9 +59,8 @@ export default function SearchScreen() {
   }, [query, activeGenre, filmes]);
 
   const handlePress = useCallback((movie) => {
-    setSelectedMovie(movie);
-    setModalVisible(true);
-  }, []);
+    navigation.navigate('Details', { id: movie.id });
+  }, [navigation]);
 
   const handleUpdated = useCallback((updated) => {
     setFilmes((prev) =>
@@ -75,7 +77,12 @@ export default function SearchScreen() {
   const renderItem = useCallback(
     ({ item }) => (
       <View style={styles.cardWrapper}>
-        <MovieCard movie={item} onPress={handlePress} />
+        <MovieCard
+          movie={item}
+          onPress={handlePress}
+          width={GRID_CARD_WIDTH}
+          style={styles.gridCard}
+        />
       </View>
     ),
     [handlePress]
@@ -132,7 +139,7 @@ export default function SearchScreen() {
 
       {results.length === 0 ? (
         <View style={styles.empty}>
-          <Text style={styles.emptyEmoji}>🎬</Text>
+          <Icon as={Film} size={48} color={COLORS.gray} style={styles.emptyIcon} />
           <Text style={styles.emptyText}>Nenhum filme encontrado</Text>
           <Text style={styles.emptyHint}>Tente outro termo ou gênero</Text>
         </View>
@@ -148,13 +155,7 @@ export default function SearchScreen() {
         />
       )}
 
-      <MovieModal
-        movie={selectedMovie}
-        visible={modalVisible}
-        onClose={() => setModalVisible(false)}
-        onUpdated={handleUpdated}
-        onDeleted={handleDeleted}
-      />
+      {/* Details now open via navigation */}
     </View>
   );
 }
@@ -213,14 +214,19 @@ const styles = StyleSheet.create({
     gap: 8,
     marginBottom: 8,
   },
-  cardWrapper: {},
+  cardWrapper: {
+    width: GRID_CARD_WIDTH,
+  },
+  gridCard: {
+    marginRight: 0,
+  },
   empty: {
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
     gap: 8,
   },
-  emptyEmoji: { fontSize: 48, marginBottom: 8 },
+  emptyIcon: { marginBottom: 8 },
   emptyText: {
     color: COLORS.white,
     fontSize: 18,

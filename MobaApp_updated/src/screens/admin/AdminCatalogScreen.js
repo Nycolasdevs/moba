@@ -5,6 +5,9 @@ import {
 } from 'react-native';
 import { StatusBar } from 'expo-status-bar';
 import { useFocusEffect } from '@react-navigation/native';
+import { Star, Trash2, Plus } from 'lucide-react-native';
+import { Icon } from '../../components/ui/icon';
+import DeleteMovieModal from '../../components/DeleteMovieModal';
 import { getFilmes, deleteFilme } from '../../services/adminFilmesApi';
 import { COLORS, FONTS, SPACING, RADIUS } from '../../theme';
 
@@ -13,6 +16,8 @@ export default function AdminCatalogScreen({ navigation }) {
   const [loading, setLoading] = useState(true);
   const [refreshing, setRefreshing] = useState(false);
   const [error, setError] = useState(null);
+  const [movieToDelete, setMovieToDelete] = useState(null);
+  const [deleting, setDeleting] = useState(false);
 
   const fetchFilmes = useCallback(async (isRefresh = false) => {
     try {
@@ -55,6 +60,29 @@ export default function AdminCatalogScreen({ navigation }) {
         },
       ]
     );
+  };
+
+  const handleDeletePress = (filme) => {
+    setMovieToDelete(filme);
+  };
+
+  const handleCancelDelete = () => {
+    if (!deleting) setMovieToDelete(null);
+  };
+
+  const handleConfirmDelete = async () => {
+    if (!movieToDelete) return;
+    try {
+      setDeleting(true);
+      await deleteFilme(movieToDelete.id);
+      setFilmes((prev) => prev.filter((f) => f.id !== movieToDelete.id));
+      Alert.alert('Filme excluido', `"${movieToDelete.titulo}" foi removido do catalogo.`);
+      setMovieToDelete(null);
+    } catch {
+      Alert.alert('Erro', 'Nao foi possivel excluir.');
+    } finally {
+      setDeleting(false);
+    }
   };
 
   if (loading && !refreshing) {
@@ -108,23 +136,40 @@ export default function AdminCatalogScreen({ navigation }) {
                 <Text style={styles.filmTitle} numberOfLines={2}>{item.titulo}</Text>
                 <Text style={styles.filmMeta}>{item.genero} · {item.ano}</Text>
                 {item.favorito && (
-                  <Text style={styles.favTag}>★ Favorito dos usuários</Text>
+                  <View style={styles.favTagRow}>
+                    <Icon as={Star} size={11} color="#f5c518" fill="#f5c518" />
+                    <Text style={styles.favTag}>Favorito dos usuários</Text>
+                  </View>
                 )}
               </View>
               <TouchableOpacity
                 style={styles.deleteBtn}
-                onPress={() => handleDelete(item)}
+                onPress={(event) => {
+                  event.stopPropagation?.();
+                  handleDeletePress(item);
+                }}
                 hitSlop={{ top: 8, bottom: 8, left: 8, right: 8 }}
               >
-                <Text style={styles.deleteText}>🗑️</Text>
+                <Icon as={Trash2} size={20} color={COLORS.red} />
               </TouchableOpacity>
             </TouchableOpacity>
           )}
           ListEmptyComponent={
-            <Text style={styles.empty}>Nenhum filme cadastrado. Adicione na aba ➕</Text>
+            <View style={styles.emptyWrap}>
+              <Text style={styles.empty}>Nenhum filme cadastrado. Adicione na aba </Text>
+              <Icon as={Plus} size={14} color={COLORS.gray} />
+            </View>
           }
         />
       )}
+
+      <DeleteMovieModal
+        visible={!!movieToDelete}
+        title={movieToDelete?.titulo}
+        loading={deleting}
+        onCancel={handleCancelDelete}
+        onConfirm={handleConfirmDelete}
+      />
     </View>
   );
 }
@@ -180,11 +225,16 @@ const styles = StyleSheet.create({
     marginBottom: 4,
   },
   filmMeta: { color: COLORS.gray, fontSize: 13 },
-  favTag: { color: '#f5c518', fontSize: 11, marginTop: 4 },
+  favTagRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 4,
+    marginTop: 4,
+  },
+  favTag: { color: '#f5c518', fontSize: 11 },
   deleteBtn: {
     padding: SPACING.md,
   },
-  deleteText: { fontSize: 20 },
   loadingText: { color: COLORS.gray, marginTop: SPACING.md },
   errorText: {
     color: COLORS.gray,
@@ -199,10 +249,16 @@ const styles = StyleSheet.create({
     borderRadius: 6,
   },
   retryText: { color: COLORS.white, fontWeight: FONTS.bold },
+  emptyWrap: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginTop: 40,
+    gap: 4,
+  },
   empty: {
     color: COLORS.gray,
     textAlign: 'center',
-    marginTop: 40,
     fontSize: 14,
   },
 });

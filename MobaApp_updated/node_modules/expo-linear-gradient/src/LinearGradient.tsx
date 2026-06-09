@@ -3,10 +3,11 @@
 'use client';
 
 import { Component } from 'react';
-import { Platform, processColor, ViewProps } from 'react-native';
+import type { ColorValue, ViewProps } from 'react-native';
+import { Platform, processColor } from 'react-native';
 
 import NativeLinearGradient from './NativeLinearGradient';
-import { NativeLinearGradientPoint } from './NativeLinearGradient.types';
+import type { NativeLinearGradientPoint } from './NativeLinearGradient.types';
 
 // @needsAudit
 /**
@@ -35,7 +36,7 @@ export type LinearGradientProps = ViewProps & {
    *
    * For TypeScript to know the provided array has 2 or more values, it should be provided "inline" or typed `as const`.
    */
-  colors: readonly [string, string, ...string[]];
+  colors: readonly [ColorValue, ColorValue, ...ColorValue[]];
   /**
    * A readonly array that contains `number`s ranging from `0` to `1`, inclusive, and is the same length as the `colors` property.
    * Each number indicates a color-stop location where each respective color should be located.
@@ -117,4 +118,4 @@ function _normalizePoint(
   return Array.isArray(point) ? point : [point.x, point.y];
 }
 
-export { NativeLinearGradientPoint };
+export type { NativeLinearGradientPoint } from './NativeLinearGradient.types';

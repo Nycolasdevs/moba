@@ -1,6 +1,8 @@
 import React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { Text } from 'react-native';
+import { Home, Search, Bookmark, User } from 'lucide-react-native';
+import { Icon } from '../components/ui/icon';
 import { COLORS, FONTS } from '../theme';
 
 import HomeScreen from '../screens/HomeScreen';
@@ -11,10 +13,10 @@ import ProfileScreen from '../screens/ProfileScreen';
 const Tab = createBottomTabNavigator();
 
 const TAB_ICONS = {
-  Início: '🏠',
-  Buscar: '🔍',
-  'Minha Lista': '📋',
-  Perfil: '👤',
+  Início: Home,
+  Buscar: Search,
+  'Minha Lista': Bookmark,
+  Perfil: User,
 };
 
 export default function TabNavigator() {
@@ -31,9 +33,12 @@ export default function TabNavigator() {
           paddingTop: 8,
         },
         tabBarIcon: ({ focused }) => (
-          <Text style={{ fontSize: 20, opacity: focused ? 1 : 0.5 }}>
-            {TAB_ICONS[route.name]}
-          </Text>
+          <Icon
+            as={TAB_ICONS[route.name]}
+            size={22}
+            color={focused ? COLORS.white : COLORS.gray}
+            strokeWidth={focused ? 2.5 : 2}
+          />
         ),
         tabBarLabel: ({ focused, children }) => (
           <Text

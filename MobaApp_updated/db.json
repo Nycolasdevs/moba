@@ -5,7 +5,7 @@
       "titulo": "Interestelar",
       "genero": "Ficção Científica",
       "ano": 2014,
-      "capa": "https://picsum.photos/seed/interstellar/400/600",
+      "capa": "https://upload.wikimedia.org/wikipedia/pt/thumb/3/3a/Interstellar_Filme.png/250px-Interstellar_Filme.png",
       "favorito": true,
       "featured": true,
       "rating": "97%",
@@ -25,34 +25,11 @@
       "director": "Christopher Nolan"
     },
     {
-      "id": 2,
-      "titulo": "Breaking Bad",
-      "genero": "Drama",
-      "ano": 2008,
-      "capa": "https://picsum.photos/seed/breakingbad/400/600",
-      "favorito": true,
-      "rating": "96%",
-      "imdb": "9.5",
-      "desc": "Um professor de química se torna um produtor de metanfetamina após descobrir que tem câncer.",
-      "duration": "5 temporadas",
-      "ageRating": "18+",
-      "emoji": "🧪",
-      "colors": [
-        "#1a2e1a",
-        "#0a1a0a"
-      ],
-      "cast": [
-        "Bryan Cranston",
-        "Aaron Paul"
-      ],
-      "director": "Vince Gilligan"
-    },
-    {
       "id": 3,
       "titulo": "O Poderoso Chefão",
       "genero": "Drama",
       "ano": 1972,
-      "capa": "https://picsum.photos/seed/godfather/400/600",
+      "capa": "https://m.media-amazon.com/images/S/pv-target-images/690905891f75f6506fb8bf12de84f4e06afffc20e526b1eb0119a8b181645609.jpg",
       "favorito": true,
       "rating": "98%",
       "imdb": "9.2",
@@ -75,7 +52,7 @@
       "titulo": "Matrix",
       "genero": "Ação",
       "ano": 1999,
-      "capa": "https://picsum.photos/seed/matrix/400/600",
+      "capa": "https://ingresso-a.akamaihd.net/prd/img/movie/matrix/12aa381c-42ca-495c-a807-fb13e2016c8c.webp",
       "favorito": false,
       "rating": "95%",
       "imdb": "8.7",
@@ -98,7 +75,7 @@
       "titulo": "Stranger Things",
       "genero": "Ficção Científica",
       "ano": 2016,
-      "capa": "https://picsum.photos/seed/stranger/400/600",
+      "capa": "https://dnm.nflximg.net/api/v6/mAcAr9TxZIVbINe88xb3Teg5_OA/AAAABTWGrLjDUXHyZZwVT2_kjTXOq8nF8IBgEL5Gp3i97xghSCY3z5nsAKDRMm5qmQ9KNUFFnbWufml7YIz9hVHDoBxpqsrKS_S-VS_5.jpg?r=94b",
       "favorito": false,
       "rating": "94%",
       "imdb": "8.6",
@@ -121,8 +98,8 @@
       "titulo": "Cidade de Deus",
       "genero": "Ação",
       "ano": 2002,
-      "capa": "https://picsum.photos/seed/cidadededeus/400/600",
-      "favorito": false,
+      "capa": "https://upload.wikimedia.org/wikipedia/pt/thumb/1/10/CidadedeDeus.jpg/250px-CidadedeDeus.jpg",
+      "favorito": true,
       "rating": "93%",
       "imdb": "8.6",
       "desc": "Retratos de jovens cresceram em meio à violência nas favelas do Rio de Janeiro.",
@@ -138,6 +115,46 @@
         "Leandro Firmino"
       ],
       "director": "Fernando Meirelles"
+    },
+    {
+      "titulo": "Jogo da Imitação",
+      "genero": "Drama",
+      "ano": 2014,
+      "capa": "https://m.media-amazon.com/images/S/pv-target-images/f4fc62b20bb2efea88e0137c951e900306d4750f01c1a1fa3075a9f2486f295b.jpg",
+      "favorito": true,
+      "id": 7
+    },
+    {
+      "titulo": "Air",
+      "genero": "Drama",
+      "ano": 2023,
+      "capa": "https://m.media-amazon.com/images/S/pv-target-images/dff7946adc1e8a7aefd750c8020128671552c8a9dc089489e415266b3b787a76.jpg",
+      "favorito": false,
+      "id": 8
+    },
+    {
+      "titulo": "F1",
+      "genero": "Ação",
+      "ano": 2025,
+      "capa": "https://m.media-amazon.com/images/S/pv-target-images/621953c18a79f28d07670e1c78827b4d8bb63c076c78481795f031c76a2ae41f.jpg",
+      "favorito": true,
+      "id": 9
+    },
+    {
+      "titulo": "A Rede Social",
+      "genero": "Drama",
+      "ano": 2010,
+      "capa": "https://m.media-amazon.com/images/S/pv-target-images/0007148a033c995e36aaff6749431d416589d3cf4777bef8fc1bde48ba1f9fd7.jpg",
+      "favorito": false,
+      "id": 10
+    },
+    {
+      "titulo": "Gente Grande",
+      "genero": "Comédia",
+      "ano": 2010,
+      "capa": "https://m.media-amazon.com/images/S/pv-target-images/28ba30adb15abcf10253d4c9e07575a206dfd89e48c37714b5f8603ce1575bf9.jpg",
+      "favorito": true,
+      "id": 11
     }
   ]
 }
