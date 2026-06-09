@@ -1,0 +1,143 @@
+{
+  "filmes": [
+    {
+      "id": 1,
+      "titulo": "Interestelar",
+      "genero": "Ficção Científica",
+      "ano": 2014,
+      "capa": "https://picsum.photos/seed/interstellar/400/600",
+      "favorito": true,
+      "featured": true,
+      "rating": "97%",
+      "imdb": "8.9",
+      "desc": "Um grupo de exploradores viaja por um buraco de minhoca no espaço para garantir a sobrevivência da humanidade.",
+      "duration": "2h 49min",
+      "ageRating": "12+",
+      "emoji": "🌌",
+      "colors": [
+        "#0d1b3e",
+        "#1b2a4e"
+      ],
+      "cast": [
+        "Matthew McConaughey",
+        "Anne Hathaway"
+      ],
+      "director": "Christopher Nolan"
+    },
+    {
+      "id": 2,
+      "titulo": "Breaking Bad",
+      "genero": "Drama",
+      "ano": 2008,
+      "capa": "https://picsum.photos/seed/breakingbad/400/600",
+      "favorito": true,
+      "rating": "96%",
+      "imdb": "9.5",
+      "desc": "Um professor de química se torna um produtor de metanfetamina após descobrir que tem câncer.",
+      "duration": "5 temporadas",
+      "ageRating": "18+",
+      "emoji": "🧪",
+      "colors": [
+        "#1a2e1a",
+        "#0a1a0a"
+      ],
+      "cast": [
+        "Bryan Cranston",
+        "Aaron Paul"
+      ],
+      "director": "Vince Gilligan"
+    },
+    {
+      "id": 3,
+      "titulo": "O Poderoso Chefão",
+      "genero": "Drama",
+      "ano": 1972,
+      "capa": "https://picsum.photos/seed/godfather/400/600",
+      "favorito": true,
+      "rating": "98%",
+      "imdb": "9.2",
+      "desc": "A saga da família Corleone e seu império criminoso em Nova York.",
+      "duration": "2h 55min",
+      "ageRating": "16+",
+      "emoji": "🎩",
+      "colors": [
+        "#1a1a2e",
+        "#16213e"
+      ],
+      "cast": [
+        "Marlon Brando",
+        "Al Pacino"
+      ],
+      "director": "Francis Ford Coppola"
+    },
+    {
+      "id": 4,
+      "titulo": "Matrix",
+      "genero": "Ação",
+      "ano": 1999,
+      "capa": "https://picsum.photos/seed/matrix/400/600",
+      "favorito": false,
+      "rating": "95%",
+      "imdb": "8.7",
+      "desc": "Um hacker descobre que a realidade é uma simulação controlada por máquinas.",
+      "duration": "2h 16min",
+      "ageRating": "16+",
+      "emoji": "🕶️",
+      "colors": [
+        "#0a1a0a",
+        "#003300"
+      ],
+      "cast": [
+        "Keanu Reeves",
+        "Laurence Fishburne"
+      ],
+      "director": "Lana Wachowski"
+    },
+    {
+      "id": 5,
+      "titulo": "Stranger Things",
+      "genero": "Ficção Científica",
+      "ano": 2016,
+      "capa": "https://picsum.photos/seed/stranger/400/600",
+      "favorito": false,
+      "rating": "94%",
+      "imdb": "8.6",
+      "desc": "Um grupo de crianças enfrenta forças sobrenaturais em uma pequena cidade.",
+      "duration": "4 temporadas",
+      "ageRating": "14+",
+      "emoji": "👾",
+      "colors": [
+        "#1a0a2e",
+        "#2d0a4e"
+      ],
+      "cast": [
+        "Millie Bobby Brown",
+        "Finn Wolfhard"
+      ],
+      "director": "Matt Duffer"
+    },
+    {
+      "id": 6,
+      "titulo": "Cidade de Deus",
+      "genero": "Ação",
+      "ano": 2002,
+      "capa": "https://picsum.photos/seed/cidadededeus/400/600",
+      "favorito": false,
+      "rating": "93%",
+      "imdb": "8.6",
+      "desc": "Retratos de jovens cresceram em meio à violência nas favelas do Rio de Janeiro.",
+      "duration": "2h 10min",
+      "ageRating": "18+",
+      "emoji": "🏙️",
+      "colors": [
+        "#3a0808",
+        "#1a0a0a"
+      ],
+      "cast": [
+        "Alexandre Rodrigues",
+        "Leandro Firmino"
+      ],
+      "director": "Fernando Meirelles"
+    }
+  ]
+}

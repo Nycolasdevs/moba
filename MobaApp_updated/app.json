@@ -1,0 +1,27 @@
+{
+  "expo": {
+    "name": "MOBA",
+    "slug": "moba-app",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "userInterfaceStyle": "dark",
+    "backgroundColor": "#141414",
+    "splash": {
+      "backgroundColor": "#141414",
+      "resizeMode": "contain"
+    },
+    "assetBundlePatterns": ["**/*"],
+    "ios": {
+      "supportsTablet": false,
+      "bundleIdentifier": "com.moba.streaming"
+    },
+    "android": {
+      "adaptiveIcon": {
+        "backgroundColor": "#141414"
+      },
+      "package": "com.moba.streaming",
+      "edgeToEdgeEnabled": true
+    },
+    "plugins": []
+  }
+}
